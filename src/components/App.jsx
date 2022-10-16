@@ -3,11 +3,11 @@ import { Component } from "react";
 import shortid from 'shortid';
 import { Form } from './Form/Form';
 import { ContactList } from './Contacts/Contacts'
+import { Filter } from "./Filter/Filter";
 
 
 export class App extends Component {
   state = {
-    // contacts: [],
     contacts: [
       {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
       {id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
@@ -17,14 +17,7 @@ export class App extends Component {
     filter: ''
   }
 
-  formSubmitHandler = data => {
-    setTimeout(() => {
-      // console.log(data)
-    }, 1000)
-  }
-
-  addTodo = (userNeme, userTel) => {
-    //create and add contact to state.contacts:
+  addContact = (userNeme, userTel) => {
     const todo = {
       id: shortid.generate(),
       name: userNeme,
@@ -36,18 +29,32 @@ export class App extends Component {
     }))
   }
 
+  changeFilter = evt => {
+    this.setState({ filter: evt.currentTarget.value });
+  }
+
+  getFilteredContacts = () => {
+    const { contacts, filter } = this.state;
+    const normalizedFilter = filter.toLowerCase();
+
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter)
+    );
+
+  }
+
   render() {
-    const { contacts} = this.state;
+    const { contacts, filter } = this.state;
+    const filteredContacts = this.getFilteredContacts();
+
     return (
       <>
         <h2>Phonebook</h2>
-        {/* <Form onSubmit={this.formSubmitHandler} addTodo={this.addTodo} /> */}
-        <Form onSubmit={this.addTodo} />
+        <Form onSubmit={this.addContact} />
         
         <h2>Contacts</h2>
-        <p>Find contacts by name</p>
-        <input type="text" />
-        <ContactList contacts={contacts} />
+        <Filter value={filter} onChange={this.changeFilter} />
+        <ContactList contacts={filteredContacts} />
       </>
     )
   }
