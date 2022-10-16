@@ -1,9 +1,11 @@
-import { Component } from "react";
+import { Component } from 'react';
+import { FormWrap, FormButton } from './Form.styled';
+
 
 export class Form extends Component {
     state = {
         name: '',
-        number: ''
+        number: '',
     }
 
     handleInputChange = evt => {
@@ -13,10 +15,8 @@ export class Form extends Component {
 
     handleSubmit = evt => {
         evt.preventDefault();
-        // прочитати name:
+        // read name:
         this.props.onSubmit(this.state.name, this.state.number);
-        // this.props.onSubmit(this.state);
-        // console.log(this.state.name, this.state.number)
         this.resetForm(this.contacts)
     }
 
@@ -26,8 +26,8 @@ export class Form extends Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <label htmlFor="text" style={{display: "block", marginBottom: "12px"}}>Name</label>
+            <FormWrap onSubmit={this.handleSubmit}>
+                <label htmlFor="text">Name</label>
                 <input
                     id="text"
                     type="text"
@@ -38,7 +38,7 @@ export class Form extends Component {
                     onChange={this.handleInputChange}  
                     required  
                 />
-                <label htmlFor="tel" style={{display: "block", marginBottom: "12px"}}>Number</label>
+                <label htmlFor="tel">Number</label>
                 <input
                     id="tel"
                     type="tel"
@@ -49,8 +49,8 @@ export class Form extends Component {
                     onChange={this.handleInputChange} 
                     required
                 />
-                <button type="submit">Add contact</button>
-            </form>
+                <FormButton type="submit">Add contact</FormButton>
+            </FormWrap>
         )
     }
 }

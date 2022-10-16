@@ -1,9 +1,9 @@
 import { Component } from "react";
-// import { nanoid } from 'nanoid';
 import shortid from 'shortid';
 import { Form } from './Form/Form';
 import { ContactList } from './Contacts/Contacts'
 import { Filter } from "./Filter/Filter";
+import { TopTitle, Title } from './App.styled';
 
 
 export class App extends Component {
@@ -14,15 +14,15 @@ export class App extends Component {
       {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
       {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
     ],
-    filter: ''
+    filter: '',
   }
 
-  addContact = (userNeme, userTel) => {
+  addContact = (contactName, contactTel) => {
     const { contacts } = this.state;
     const newContact = {
       id: shortid.generate(),
-      name: userNeme,
-      number: userTel,
+      name: contactName,
+      number: contactTel,
     };
 
     for (const contact of contacts) {
@@ -54,7 +54,6 @@ export class App extends Component {
     return contacts.filter(contact =>
       contact.name.toLowerCase().includes(normalizedFilter)
     );
-
   }
 
   render() {
@@ -63,10 +62,10 @@ export class App extends Component {
 
     return (
       <>
-        <h2>Phonebook</h2>
+        <TopTitle>Phonebook</TopTitle>
         <Form onSubmit={this.addContact} contacts={contacts} />
         
-        <h2>Contacts</h2>
+        <Title>Contacts</Title>
         <Filter value={filter} onChange={this.changeFilter} />
         <ContactList contacts={filteredContacts} onDeleteContact={this.deleteContact} />
       </>

@@ -1,13 +1,21 @@
-export const Filter = ({value, onChange}) => {
+import PropTypes from 'prop-types';
+import { FilterWrap } from './Filter.styled';
+
+
+export const Filter = ({ value, onChange }) => {
     return (
-        <>
-            <label htmlFor="filter" style={{ display: "block", marginBottom: "12px" }}>
+        <FilterWrap>
+            <label htmlFor="filter">
                 Find contacts by name</label>
             <input
             id="filter"
             type="text"
             value={value}
             onChange={onChange} />
-        </>
+        </FilterWrap>
     )
+}
+
+Filter.prototype = {
+    value: PropTypes.string.isRequired,
 }
