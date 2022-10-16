@@ -18,16 +18,25 @@ export class App extends Component {
   }
 
   addContact = (userNeme, userTel) => {
-    const todo = {
+    const { contacts } = this.state;
+    const newContact = {
       id: shortid.generate(),
       name: userNeme,
       number: userTel,
     };
+
+    for (const contact of contacts) {
+      if (contact.name === newContact.name) {
+        alert(`${newContact.name} is already in contacts.`)
+        return;
+      }
+    }
     // update/add into array:
     this.setState(prevState => ({
-      contacts: [todo, ...prevState.contacts]
+      contacts: [newContact, ...prevState.contacts]
     }))
   }
+
 
   changeFilter = evt => {
     this.setState({ filter: evt.currentTarget.value });
@@ -50,7 +59,7 @@ export class App extends Component {
     return (
       <>
         <h2>Phonebook</h2>
-        <Form onSubmit={this.addContact} />
+        <Form onSubmit={this.addContact} contacts={contacts} />
         
         <h2>Contacts</h2>
         <Filter value={filter} onChange={this.changeFilter} />
