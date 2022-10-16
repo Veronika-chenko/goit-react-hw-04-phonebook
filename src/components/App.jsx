@@ -6,6 +6,7 @@ export class App extends Component {
   state = {
     contacts: [],
     name: '',
+    number: ''
   }
 
   handleInputChange = evt => {
@@ -16,15 +17,17 @@ export class App extends Component {
   handleSubmit = evt => {
     evt.preventDefault();
     // прочитати name:
-    this.addTodo(this.state.name)
+    this.addTodo(this.state.name, this.state.number);
+    this.resetForm()
   }
 
-  addTodo = inputText => {
+  addTodo = (userNeme, userTel) => {
     // console.log(inputText)
     //create contact and add to state.contacts:
     const todo = {
       id: shortid.generate(),
-      name: inputText,
+      contact: {name: userNeme, number: userTel},
+      // name: inputText,
     };
 
     // update/add into array:
@@ -33,9 +36,8 @@ export class App extends Component {
     }))
   }
 
-  resetForm() {
-    this.state.contacts = '';
-    this.state.name = '';
+  resetForm = () => {
+    this.setState({ name: '', number: '' });
   }
   
 
@@ -53,8 +55,19 @@ export class App extends Component {
               value={this.state.name}
               pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
               title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+              onChange={this.handleInputChange}  
+              required  
+          />
+          <label htmlFor="tel" style={{display: "block", marginBottom: "12px"}}>Number</label>
+          <input
+            id="tel"
+            type="tel"
+            name="number"
+            value={this.state.number}
+            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            onChange={this.handleInputChange} 
             required
-            onChange={this.handleInputChange}
           />
           <button type="submit">Add contact</button>
         </form>
@@ -62,7 +75,7 @@ export class App extends Component {
         <h2>Contacts</h2>
         <ul prop={contacts}>
           {contacts.map((contact) => (
-            <li key={contact.id}>{contact.name}</li>
+            <li key={contact.id}>{contact.contact.name}: {contact.contact.number}</li>
           ))}
         </ul>
       </>
