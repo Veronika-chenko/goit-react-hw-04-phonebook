@@ -26,6 +26,7 @@ export const App = () => {
         return;
       }
     }
+
     setContacts(prevState => [newContact, ...prevState]);
   };
 
@@ -35,9 +36,7 @@ export const App = () => {
     );
   };
 
-  const changeFilter = e => {
-    setFilter(e.currentTarget.value);
-  };
+  const changeFilter = e => setFilter(e.currentTarget.value);
 
   const getFilteredContacts = () => {
     const normalizedFilter = filter.toLowerCase();
